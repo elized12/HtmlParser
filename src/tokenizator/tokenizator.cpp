@@ -28,14 +28,14 @@ void Tokenizator::clearToken(std::wstring& token)
     if (token.empty()) return;
 
     token.erase(std::unique(token.begin(), token.end(),
-        [](char a, char b)
+        [](wchar_t a, wchar_t b)
         {
             return std::isspace(a) && std::isspace(b);
 
         }), token.end());
 
     token.erase(token.begin(), std::find_if(token.begin(), token.end(),
-        [](int ch)
+        [](wchar_t ch)
         {
             return !std::isspace(ch);
 
@@ -53,6 +53,26 @@ void Tokenizator::clearToken(std::wstring& token)
         {
             return ch == L'\n';
         }), token.end());
+
+}
+
+bool Tokenizator::checkIsTag(std::wstring& str)
+{
+    int pos;
+
+    for (pos = 0; str[pos] != L'<'; pos++);
+
+    pos++;
+    
+    while (str[pos] == L' ')
+    {
+        pos++;
+    }
+
+    if (iswalpha(str[pos]) || str[pos] == L'!' || str[pos] == L'/')
+        return true;
+
+    return false;
 
 }
 
@@ -83,7 +103,9 @@ std::vector<Token> Tokenizator::tokenization(std::wstring htmlText)
             isText = true;
             bufferTag += symbol;
 
-            if (!(iswalpha(bufferTag[1]) || bufferTag[1] == '!'))
+
+
+            if (!checkIsTag(bufferTag))
             {
                 bufferText += bufferTag;
                 bufferTag.clear();
