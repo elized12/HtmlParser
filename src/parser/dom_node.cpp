@@ -112,42 +112,27 @@ bool DomHtmlNode::propertyExist(std::wstring property)
 	return false;
 }
 
-
-/* TODO:доделать */
-DomHtmlNode* DomHtmlNode::getFirstElement(std::wstring query)
+void DomHtmlNode::treeTraversal(DomHtmlNode* start, std::vector<DomHtmlNode*>& children)
 {
-	std::vector<Query> result = parsingQuery(query);
-
+	children.push_back(start);
 	
+	if (start->childrens.size() == 0)
+		return;
 
-	for (int i = 0; i < result.size(); i++)
-	{
-		std::wcout << (i + 1) << ":\n";
-		std::wcout << "NameTag:" << result[i].nameElement << "\n";
-		std::wcout << "IDTag:" << result[i].idElement << "\n";
-		std::wcout << "ClassesTag:";
 
-		for (int j = 0; j < result[i].classesElement.size(); j++)
-			std::wcout << result[i].classesElement[j] << " ";
-		
-		std::wcout << "\n";
-
-	}
-
-	return nullptr;
-
-}
-/* TODO:доделать */
-std::vector<DomHtmlNode*> DomHtmlNode::getAllElement(std::wstring query)
-{
-	return std::vector<DomHtmlNode*>();
+	for (int i = 0; i < start->childrens.size(); i++)
+		treeTraversal(start->childrens[i], children);
 }
 
-void Query::clear()
+std::vector<DomHtmlNode*> DomHtmlNode::getAllChildren()
 {
-	nameElement.clear();
-	classesElement.clear();
-	idElement.clear();
+	std::vector<DomHtmlNode*> childrens;
+
+	treeTraversal(this, childrens);
+
+	childrens.erase(childrens.begin());
+
+	return childrens;
 }
 
 

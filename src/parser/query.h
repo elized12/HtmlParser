@@ -17,6 +17,4 @@ public:
 	std::wstring nameElement;
 	std::vector<std::wstring> classesElement;
 	std::wstring idElement;
-public:
-	void clear();
 };

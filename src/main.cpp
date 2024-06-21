@@ -28,7 +28,7 @@ int main()
 <li class = "menu__link" >Корзина</li>
 <li class = "menu__link" >Избранное</li>
 <li class = "menu__link">Аккаунт</li>
-<input type = "submit" reqired>
+<input class = "menu__link" type = "submit" reqired>
 </ul>
 </nav>
 </header>
@@ -41,15 +41,10 @@ int main()
 
 
 	HtmlParser p(textHtml);
+
 	p.print();
-
-	vector<HtmlParser::Iterator> vec = p.getAllElement(L".menu__link");
-
-	for (int i = 0; i < vec.size(); i++)
-	{
-		wcout << (*vec[i])[L"name"] << "\n";
-	}
-
+	
+	vector<DomHtmlNode*> arr = p.getAllElement(L".menu__navigation, .menu__link");
 
 	return 0;
 }

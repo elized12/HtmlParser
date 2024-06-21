@@ -27,6 +27,7 @@ private:
 	std::map<std::wstring, std::wstring> properties;
 private:
 	std::vector<Query> parsingQuery(std::wstring& query);
+	void treeTraversal(DomHtmlNode* start, std::vector<DomHtmlNode*>& children);
 public:
 	DomHtmlNode(std::map<std::wstring, std::wstring> _properties, DomHtmlNode* _parent) : properties(_properties), parent(_parent) {}
 	DomHtmlNode() = default;
@@ -35,7 +36,5 @@ public:
 	std::map<std::wstring, std::wstring>::iterator beginProperties();
 	std::map<std::wstring, std::wstring>::iterator endProperties();
 	bool propertyExist(std::wstring propeties);
-	DomHtmlNode* getFirstElement(std::wstring query);
-
-	std::vector<DomHtmlNode*> getAllElement(std::wstring query);
+	std::vector<DomHtmlNode*> getAllChildren();
 };

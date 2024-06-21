@@ -279,7 +279,9 @@ HtmlParser::HtmlParser(std::wstring htmlText)
 
 			if (isOpenTag(tagName))
 			{
-				postionNestring.push(tagName);
+
+				if (!isSingleTag(tagName))
+					postionNestring.push(tagName);
 
 				std::map<std::wstring, std::wstring> propeties = getProperties(tokens[i]);
 
@@ -331,7 +333,43 @@ HtmlParser::Iterator HtmlParser::end()
 }
 
 
-bool checkTagOnRequest(HtmlParser::Iterator& it, Query& query)
+
+
+void HtmlParser::search(DomHtmlNode*start, std::vector<Query>& query, std::vector<DomHtmlNode*>& resultSearch, int posQuery)
+{
+	if (posQuery == query.size())
+	{
+		resultSearch.push_back(start);
+		return;
+	}
+
+	std::vector<DomHtmlNode*> childrens = start->getAllChildren();
+
+	if (posQuery == 0)
+	{
+		childrens.push_back(start);
+	}
+
+	for (int i = 0; i < childrens.size(); i++)
+	{
+		if (checkTagOnRequest(childrens[i], query[posQuery]))
+			search(childrens[i], query, resultSearch, posQuery + 1);
+	}
+
+
+
+}
+
+std::vector<DomHtmlNode*> HtmlParser::searchAll(std::vector<Query>& query)
+{
+	std::vector<DomHtmlNode*> resultSearch;
+
+	search(dom.head, query, resultSearch, 0);
+
+	return resultSearch;
+}
+
+bool HtmlParser::checkTagOnRequest(DomHtmlNode* it, Query& query)
 {
 	bool isMatchesTag = true;
 
@@ -362,32 +400,11 @@ bool checkTagOnRequest(HtmlParser::Iterator& it, Query& query)
 
 }
 
-std::vector<HtmlParser::Iterator> HtmlParser::getAllElement(std::wstring query)
+std::vector<DomHtmlNode*> HtmlParser::getAllElement(std::wstring query)
 {
-	using hp = HtmlParser;
-
-	std::vector<hp::Iterator> elements;
-
 	std::vector<Query> queries = parsingQuery(query);
 
-	hp::Iterator start = this->begin();
-
-
-	for (int i = 0; i < queries.size(); i++)
-	{
-		hp::Iterator current = start;
-
-		while (current != this->end())
-		{
-			if (checkTagOnRequest(current, queries[i]))
-			{
-				elements.push_back(current);
-			}
-			++current;
-		}
-	}
-
-	return elements;
+	return searchAll(queries);
 }
 
 HtmlParser::Iterator::Iterator(DomHtmlNode* node) : iterator(node)

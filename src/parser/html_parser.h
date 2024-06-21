@@ -63,11 +63,14 @@ private:
 	std::wstring parseTextTag(std::wstring& query, int& pos);
 	std::vector<Query> parsingQuery(std::wstring& query);
 	std::wstring trim_and_compress(const std::wstring& str);
+	bool checkTagOnRequest(DomHtmlNode* it, Query& query);
+	void search(DomHtmlNode* start, std::vector<Query>& query, std::vector<DomHtmlNode*>& resultSearch, int posQuery);
+	std::vector<DomHtmlNode*> searchAll(std::vector<Query>& query);
 public:
 	HtmlParser(std::wstring htmlText);
 public:
 	void print();
 	Iterator begin();
 	Iterator end();
-	std::vector<Iterator> getAllElement(std::wstring query);
+	std::vector<DomHtmlNode*> getAllElement(std::wstring query);
 };
