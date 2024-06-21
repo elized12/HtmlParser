@@ -1,28 +1,6 @@
 #include "tokenizator.h"
 #include <algorithm>
 
-std::map<std::wstring, bool> Tokenizator::tableInfoTags =
-{
-    {L"!doctype", statusTags::SINGLE },
-    {L"area",statusTags::SINGLE},
-    {L"base", statusTags::SINGLE },
-    {L"br",statusTags::SINGLE},
-    {L"col", statusTags::SINGLE },
-    {L"embed",statusTags::SINGLE},
-    {L"hr", statusTags::SINGLE },
-    {L"img",statusTags::SINGLE},
-    {L"input", statusTags::SINGLE },
-    {L"keygen",statusTags::SINGLE},
-    {L"link", statusTags::SINGLE },
-    {L"meta",statusTags::SINGLE},
-    {L"param", statusTags::SINGLE },
-    {L"source",statusTags::SINGLE},
-    {L"track", statusTags::SINGLE },
-    {L"wbr",statusTags::SINGLE},
-};
-
-
-
 void Tokenizator::clearToken(std::wstring& token)
 {
     if (token.empty()) return;

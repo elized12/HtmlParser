@@ -21,8 +21,6 @@ enum tokenType
 class Tokenizator
 {
 	private:
-		static std::map<std::wstring, bool> tableInfoTags;
-	private:
 		Tokenizator() = default;
 		Tokenizator(const Tokenizator&) = default;
 	private:

@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <fstream>
 #include <locale>
+#include "parser/html_parser.h"
+#include <list>
 
 using namespace std;
 
@@ -15,25 +17,38 @@ int main()
 
 	setlocale(LC_ALL, "RUSSIAN");
 
+	wstring textHtml = LR"(
+<body>
+<header>
+<nav id = "menu" class="menu">
+<div class="menu__logo">Кирилл</div>
+<ul class="menu__navigation">
+<li class="menu__link active" id="home">Главная</li>
+<li class = "menu__link">Каталог</li>
+<li class = "menu__link" >Корзина</li>
+<li class = "menu__link" >Избранное</li>
+<li class = "menu__link">Аккаунт</li>
+<input type = "submit" reqired>
+</ul>
+</nav>
+</header>
+<main>
 
-	wifstream file("C:\\Users\\User\\Desktop\\frontend\\тренировка\\index.html");
+</main>
+</body>
 
-	file.imbue(std::locale("rus_rus.utf8"));
+)";
 
-	wstring text;
-	wstring buffer;
 
-	while (getline(file, buffer))
+	HtmlParser p(textHtml);
+	p.print();
+
+	vector<HtmlParser::Iterator> vec = p.getAllElement(L".menu__link");
+
+	for (int i = 0; i < vec.size(); i++)
 	{
-		text += buffer;
+		wcout << (*vec[i])[L"name"] << "\n";
 	}
-
-	wcout << text << "\n";
-
-	vector<Token> tokens = Tokenizator::tokenization(text);
-
-	for (int i = 0; i < tokens.size(); i++)
-		wcout << i << ". " << tokens[i].getContent() << " " << tokens[i].getType() << " \n";
 
 
 	return 0;
