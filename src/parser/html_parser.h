@@ -41,13 +41,10 @@ public:
 		Iterator(const Iterator& it) = default;
 	public:
 		Iterator& operator=(const Iterator& it);
-		Iterator& operator=(DomHtmlNode* node);
 		Iterator& operator++() throw (NotRange);
 		DomHtmlNode& operator*() const;
 		bool operator==(const Iterator& it);
 		bool operator!=(const Iterator& it);
-		void printPath();
-		void printInfoNode();
 
 	};
 
@@ -66,6 +63,7 @@ private:
 	bool checkTagOnRequest(DomHtmlNode* it, Query& query);
 	void search(DomHtmlNode* start, std::vector<Query>& query, std::vector<DomHtmlNode*>& resultSearch, int posQuery);
 	std::vector<DomHtmlNode*> searchAll(std::vector<Query>& query);
+	std::vector<std::wstring> getArrayClasses(std::wstring stringClass);
 public:
 	HtmlParser(std::wstring htmlText);
 public:

@@ -5,11 +5,13 @@
 #include "dom_html.h"
 #include "exception.h"
 #include "query.h"
+#include "tag.h"
 
 class DomHtml;
 class HtmlParser;
 
-class SyntacisError : public Exception {
+class SyntacisError : public Exception 
+{
 public:
 	SyntacisError(std::string information) : Exception("SyntacsisError", information) {}
 };
@@ -17,7 +19,7 @@ public:
 class DomHtmlNode
 {
 private:
-	
+
 public:
 	friend DomHtml;
 	friend HtmlParser;
@@ -37,4 +39,6 @@ public:
 	std::map<std::wstring, std::wstring>::iterator endProperties();
 	bool propertyExist(std::wstring propeties);
 	std::vector<DomHtmlNode*> getAllChildren();
+	void addChildren(Tag node);
+
 };

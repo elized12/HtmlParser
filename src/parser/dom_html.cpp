@@ -30,6 +30,22 @@ void DomHtml::eraseEnd()
 
 }
 
+void DomHtml::eraseDomTree(DomHtmlNode* start)
+{
+	if (start->childrens.size() == 0)
+	{
+		delete start;
+		return;
+	}
+
+	for (int i = 0; i < start->childrens.size(); i++)
+	{
+		eraseDomTree(start->childrens[i]);
+	}
+
+	delete start;
+}
+
 void DomHtml::add(DomHtmlNode* parent, DomHtmlNode* value)
 {
 	if (tail != nullptr)
@@ -117,4 +133,9 @@ DomHtmlNode* DomHtml::end()
 void DomHtml::print()
 {
 	printAll(head);
+}
+
+DomHtml::~DomHtml()
+{
+	eraseDomTree(head);
 }

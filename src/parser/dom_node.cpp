@@ -135,4 +135,13 @@ std::vector<DomHtmlNode*> DomHtmlNode::getAllChildren()
 	return childrens;
 }
 
+void DomHtmlNode::addChildren(Tag tag)
+{
+	DomHtmlNode* newNode = new DomHtmlNode();
+
+	newNode->parent = this;
+	newNode->properties = tag.properties;
+
+}
+
 

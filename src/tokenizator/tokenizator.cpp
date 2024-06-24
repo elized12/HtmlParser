@@ -5,6 +5,13 @@ void Tokenizator::clearToken(std::wstring& token)
 {
     if (token.empty()) return;
 
+
+    std::replace_if(token.begin(), token.end(),
+        [](wchar_t ch)
+        {
+            return ch == L'\n' || ch == L'\t';
+        }, L' ');
+
     token.erase(std::unique(token.begin(), token.end(),
         [](wchar_t a, wchar_t b)
         {

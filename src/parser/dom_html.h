@@ -17,6 +17,7 @@ private:
 private:
 	void printAll(DomHtmlNode* start,int pos = 0);
 	void eraseEnd();
+	void eraseDomTree(DomHtmlNode* start);
 public:
 	DomHtml() : size(0), head(nullptr), isChange(true),tail(nullptr) {}
 	//DomHtml(const DomHtml& copy);
@@ -26,5 +27,5 @@ public:
 	DomHtmlNode* end();
 public:
 	void print();
-	//~DomHtml();
+	~DomHtml();
 };

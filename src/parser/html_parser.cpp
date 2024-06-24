@@ -37,7 +37,7 @@ std::wstring HtmlParser::getNameTag(Token& token)
 	while (!iswalpha(tokenText[i]) && tokenText[i] != '/')
 		i++;
 
-	while (iswalpha(tokenText[i]) || tokenText[i] == '/')
+	while (iswalpha(tokenText[i]) || tokenText[i] == '/' || iswdigit(tokenText[i]))
 	{
 		name += tokenText[i++];
 	}
@@ -333,7 +333,32 @@ HtmlParser::Iterator HtmlParser::end()
 }
 
 
+std::vector<std::wstring> HtmlParser::getArrayClasses(std::wstring stringClass)
+{
+	std::vector < std::wstring> classes;
 
+	std::wstring buffer;
+
+	for (int i = 0; i < stringClass.size(); i++)
+	{
+		buffer += stringClass[i];
+
+		if (iswspace(stringClass[i]))
+		{
+			if (!buffer.empty())
+			{
+				classes.push_back(std::move(buffer));
+			}
+			buffer.clear();
+		}
+	}
+
+	if (!buffer.empty())
+	{
+		classes.push_back(std::move(buffer));
+	}
+	return classes;
+}
 
 void HtmlParser::search(DomHtmlNode*start, std::vector<Query>& query, std::vector<DomHtmlNode*>& resultSearch, int posQuery)
 {
@@ -381,13 +406,25 @@ bool HtmlParser::checkTagOnRequest(DomHtmlNode* it, Query& query)
 
 	if (!query.classesElement.empty())
 	{
-		for (int i = 0; i < query.classesElement.size(); i++)
+		if ((*it)[L"class"].empty())
 		{
-			if ((*it)[L"class"].find(query.classesElement[i]) == -1)
-			{
-				return false;
-			}
+			return false;
 		}
+
+		std::vector<std::wstring> classes = getArrayClasses((*it)[L"class"]);
+
+		bool classFinded = false;
+
+		for (int i = 0; i < classes.size(); i++)
+			for (int j = 0; j < query.classesElement.size(); j++)
+				if (classes[i] == query.classesElement[j])
+				{
+					classFinded = true;
+					break;
+				}
+
+		if (!classFinded)
+			return false;
 	}
 
 	if (!query.idElement.empty())
@@ -422,6 +459,7 @@ HtmlParser::Iterator& HtmlParser::Iterator::operator=(const Iterator& it)
 
 	return *this;
 }
+
 
 HtmlParser::Iterator& HtmlParser::Iterator::operator++() throw(NotRange)
 {
