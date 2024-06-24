@@ -76,6 +76,9 @@ void DomHtml::add(DomHtmlNode* parent, DomHtmlNode* value)
 
 void DomHtml::erase(DomHtmlNode* node)
 {
+	if (tail != nullptr)
+		eraseEnd();
+
 	if (node->childrens.size() == 0)
 	{
 		DomHtmlNode* parentNode = node->parent;

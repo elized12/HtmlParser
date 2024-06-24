@@ -104,18 +104,10 @@ std::map<std::wstring, std::wstring>::iterator DomHtmlNode::endProperties()
 	return properties.end();
 }
 
-bool DomHtmlNode::propertyExist(std::wstring property)
-{
-	if (properties.count(property))
-		return true;
-
-	return false;
-}
-
 void DomHtmlNode::treeTraversal(DomHtmlNode* start, std::vector<DomHtmlNode*>& children)
 {
 	children.push_back(start);
-	
+
 	if (start->childrens.size() == 0)
 		return;
 
@@ -133,6 +125,14 @@ std::vector<DomHtmlNode*> DomHtmlNode::getAllChildren()
 	childrens.erase(childrens.begin());
 
 	return childrens;
+}
+
+bool DomHtmlNode::propertyExist(std::wstring property)
+{
+	if (properties.count(property) == 0)
+		return false;
+	else
+		return true;
 }
 
 void DomHtmlNode::addChildren(Tag tag)

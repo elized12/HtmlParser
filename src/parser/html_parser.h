@@ -64,6 +64,7 @@ private:
 	void search(DomHtmlNode* start, std::vector<Query>& query, std::vector<DomHtmlNode*>& resultSearch, int posQuery);
 	std::vector<DomHtmlNode*> searchAll(std::vector<Query>& query);
 	std::vector<std::wstring> getArrayClasses(std::wstring stringClass);
+	DomHtmlNode* searchFirst(DomHtmlNode* start, std::vector<Query>& query, int posQuery);
 public:
 	HtmlParser(std::wstring htmlText);
 public:
@@ -71,4 +72,7 @@ public:
 	Iterator begin();
 	Iterator end();
 	std::vector<DomHtmlNode*> getAllElement(std::wstring query);
+	DomHtmlNode* getFirstElement(std::wstring query);
+	void erase(DomHtmlNode* deleteNode);
+	void add(DomHtmlNode* whereAdd, Tag tags);
 };

@@ -360,7 +360,7 @@ std::vector<std::wstring> HtmlParser::getArrayClasses(std::wstring stringClass)
 	return classes;
 }
 
-void HtmlParser::search(DomHtmlNode*start, std::vector<Query>& query, std::vector<DomHtmlNode*>& resultSearch, int posQuery)
+void HtmlParser::search(DomHtmlNode* start, std::vector<Query>& query, std::vector<DomHtmlNode*>& resultSearch, int posQuery)
 {
 	if (posQuery == query.size())
 	{
@@ -383,6 +383,35 @@ void HtmlParser::search(DomHtmlNode*start, std::vector<Query>& query, std::vecto
 
 
 
+}
+
+DomHtmlNode* HtmlParser::searchFirst(DomHtmlNode* start, std::vector<Query>& query, int posQuery)
+{
+	if (posQuery == query.size())
+	{
+		return start;
+	}
+
+	std::vector<DomHtmlNode*> childrens = start->getAllChildren();
+
+	if (posQuery == 0)
+	{
+		childrens.push_back(start);
+	}
+
+	for (DomHtmlNode* child : childrens)
+	{
+		if (checkTagOnRequest(child, query[posQuery]))
+		{
+			DomHtmlNode* result = searchFirst(child, query, posQuery + 1);
+			if (result != nullptr)
+			{
+				return result;
+			}
+		}
+	}
+
+	return nullptr; 
 }
 
 std::vector<DomHtmlNode*> HtmlParser::searchAll(std::vector<Query>& query)
@@ -540,3 +569,20 @@ bool HtmlParser::Iterator::operator!=(const Iterator& it)
 	return !(this->operator==(it));
 }
 
+DomHtmlNode* HtmlParser::getFirstElement(std::wstring query)
+{
+	std::vector<Query> queries = parsingQuery(query);
+
+	return searchFirst(dom.head, queries, 0);
+
+}
+
+void HtmlParser::erase(DomHtmlNode* deleteNode)
+{
+	dom.erase(deleteNode);
+}
+
+void HtmlParser::add(DomHtmlNode* where, Tag tags)
+{
+	where->addChildren(tags);
+}
