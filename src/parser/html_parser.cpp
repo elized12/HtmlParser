@@ -310,6 +310,7 @@ HtmlParser::HtmlParser(std::wstring htmlText)
 		{
 			DomHtmlNode* text = new DomHtmlNode({ {L"name",L"text"},{L"content",tokens[i].getContent()} }, currentPosition);
 			dom.add(currentPosition, text);
+			(*currentPosition)[L"innerText"] = tokens[i].getContent();
 		}
 	}
 
@@ -331,7 +332,6 @@ HtmlParser::Iterator HtmlParser::end()
 {
 	return Iterator(dom.end());
 }
-
 
 std::vector<std::wstring> HtmlParser::getArrayClasses(std::wstring stringClass)
 {
@@ -459,7 +459,6 @@ HtmlParser::Iterator& HtmlParser::Iterator::operator=(const Iterator& it)
 
 	return *this;
 }
-
 
 HtmlParser::Iterator& HtmlParser::Iterator::operator++() throw(NotRange)
 {
