@@ -39,6 +39,5 @@ public:
 	std::map<std::wstring, std::wstring>::iterator endProperties();
 	bool propertyExist(std::wstring propeties);
 	std::vector<DomHtmlNode*> getAllChildren();
-	void addChildren(Tag node);
 
 };

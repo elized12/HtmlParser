@@ -22,7 +22,6 @@ public:
 class HtmlParser
 {
 public:
-
 	class Iterator
 	{
 		friend DomHtml;
@@ -47,7 +46,6 @@ public:
 		bool operator!=(const Iterator& it);
 
 	};
-
 private:
 	DomHtml dom;
 private:

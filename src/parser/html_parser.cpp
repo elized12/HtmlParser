@@ -584,5 +584,10 @@ void HtmlParser::erase(DomHtmlNode* deleteNode)
 
 void HtmlParser::add(DomHtmlNode* where, Tag tags)
 {
-	where->addChildren(tags);
+	DomHtmlNode* newNode = new DomHtmlNode();
+
+	newNode->properties = tags.properties;
+	newNode->parent = where;
+
+	dom.add(where, newNode);
 }

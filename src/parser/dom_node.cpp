@@ -135,13 +135,4 @@ bool DomHtmlNode::propertyExist(std::wstring property)
 		return true;
 }
 
-void DomHtmlNode::addChildren(Tag tag)
-{
-	DomHtmlNode* newNode = new DomHtmlNode();
-
-	newNode->parent = this;
-	newNode->properties = tag.properties;
-
-}
-
 
