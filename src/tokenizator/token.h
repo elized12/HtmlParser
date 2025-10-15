@@ -1,17 +1,22 @@
 #pragma once
-#include "tokenizator.h"
 #include <string>
 
-enum tokenType;
+#include "tokenizator.h"
 
-class Token
-{
-	private:
-		std::wstring content;
-		tokenType type;
-	public:
-		Token(std::wstring& _content, tokenType _type) :content(_content), type(_type) {}
-	public:
-		std::wstring& getContent();
-		tokenType getType();
+enum tokenType {
+    TAG = 10,
+    TEXT = 11
+};
+
+class Token {
+   private:
+    std::wstring content;
+    tokenType type;
+
+   public:
+    Token(std::wstring& _content, tokenType _type) : content(_content), type(_type) {}
+
+   public:
+    std::wstring& getContent();
+    tokenType getType();
 };
